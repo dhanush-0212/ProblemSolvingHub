@@ -1,14 +1,14 @@
 class Solution {
     public int minimumLength(String s) {
-        HashMap<Character,Integer> map=new HashMap<>();
+        int arr[]=new int[26];
         for(char c:s.toCharArray()){
-            map.put(c,map.getOrDefault(c,0)+1);
+            arr[c-'a']++;
         }
         int value=0,result=0;
-        for(char c:map.keySet()){
-            value=map.get(c);
-            value=value %2==0?2:1;
-            result+=value;
+        for(int num:arr){
+            if (num == 0) continue;
+            result+=num%2 == 0? 2:1;
+            
         }
         return result;
     }
