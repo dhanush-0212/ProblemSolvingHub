@@ -12,11 +12,9 @@ class Solution {
                 small.add(arr[i]);
             }
         }
+        small.addAll(large);
         int i=0;
         for(int num:small){
-            ans[i++]=num;
-        }
-        for(int num:large){
             ans[i++]=num;
         }
         return ans;
