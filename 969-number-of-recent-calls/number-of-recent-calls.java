@@ -6,12 +6,8 @@ class RecentCounter {
     
     public int ping(int t) {
         q.add(t);
-        int count=0;
-        int range=t-3000;
-        for(int num:q){
-            if(num>=range && num<=t) count++;
-        }
-        return count;
+        while(t-q.peek()>3000) q.poll();
+        return q.size();
     }
 }
 
