@@ -1,44 +1,29 @@
 class Solution {
     public int largestRectangleArea(int[] heights) {
-        
-        int[] nse=findnse(heights);
-        int[] pse=findpse(heights);
+        int n=heights.length;
+        int ele=0;
+        int nse=0,pse=0;
         int ans=0;
-        for(int i=0;i<heights.length;i++){
-            ans=Math.max(ans,heights[i]*(nse[i]-pse[i]-1));
+        Stack<Integer> stck=new Stack<>();
+        for(int i=0;i<n;i++){
+            int num=heights[i];
+            while(!stck.isEmpty() && heights[stck.peek()] >= num ){
+                ele=stck.pop();
+                nse=i;
+                pse=stck.isEmpty()?-1:stck.peek();
+                int width=nse-pse-1;
+                ans=Math.max(ans,heights[ele]*width);
+            }
+            
+            stck.push(i);
+        }
+        while(!stck.isEmpty()){
+            ele=stck.pop();
+            nse=n;
+            pse=stck.isEmpty()?-1:stck.peek();
+            int width=nse-pse-1;
+            ans=Math.max(ans,heights[ele] * width);
         }
         return ans;
-    }
-    public int[] findpse(int[] height){
-       // int i=0;
-        Stack<Integer> stck=new Stack<>();
-        int[] arr=new int[height.length];
-        for(int i=0;i<height.length;i++){
-            int num=height[i];
-            while(!stck.isEmpty() && height[stck.peek()] >= num){
-                stck.pop();
-            }
-            int nle=stck.isEmpty()?-1:stck.peek();
-            arr[i]=nle;
-            stck.push(i);
-        }
-        return arr;
-    }
-    public int[] findnse(int[] height){
-        //int i=0;
-        Stack<Integer> stck=new Stack<>();
-        int[] arr=new int[height.length];
-        int n=height.length;
-        for(int i=n-1;i>=0;i--){
-            int num=height[i];
-            while(!stck.isEmpty() && height[stck.peek()] >= num){
-                stck.pop();
-            }
-
-            int nle=stck.isEmpty()?n:stck.peek();
-            arr[i]=nle;
-            stck.push(i);
-        }
-        return arr;
     }
 }
