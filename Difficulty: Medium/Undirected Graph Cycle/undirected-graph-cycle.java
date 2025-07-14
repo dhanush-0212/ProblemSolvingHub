@@ -17,36 +17,25 @@ class Solution {
         
         for(int i=0;i<v;i++){
             if(!vis[i]){
-                if(bfs(i,v,vis,list)) return true;
+                if(dfs(i,-1,vis,list)) return true;
             }
         }
         
         return false;
     }
     
-    boolean bfs(int node,int v,boolean[] vis,List<List<Integer>> list){
-        vis[node]=true;
-        Queue<int[]> q=new ArrayDeque<>();
-        
-        q.add(new int[]{node,-1});
-        
-        while(!q.isEmpty()){
-            int[] temp=q.poll();
-            int src=temp[0];
-            int parent=temp[1];
-            
-            for(int nbr:list.get(src)){
-                if(!vis[nbr]){
-                    vis[nbr]=true;
-                    q.add(new int[]{nbr,src});
-                }
-                else if(parent != nbr){
-                    return true;
-                }
-            }
-            
-        }
-        return false;
+    boolean dfs(int src,int parent,boolean[] vis,List<List<Integer>> list){
+       
+       if(vis[src]) return true;
+       
+       vis[src]=true;
+       
+       for(int nbr:list.get(src)){
+           if(nbr != parent){
+               if(dfs(nbr,src,vis,list)) return true;
+           }
+       }
+       return false;
         
     }
     
