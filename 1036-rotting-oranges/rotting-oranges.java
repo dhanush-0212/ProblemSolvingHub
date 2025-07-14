@@ -1,61 +1,62 @@
 class Solution {
     public int orangesRotting(int[][] grid) {
-        Queue<int[]> q = new LinkedList<>();
         int m=grid.length;
         int n=grid[0].length;
-        boolean fresh=false;
-        boolean rotten =false;
+
+        int[][] dir={{-1,0},{0,+1},{+1,0},{0,-1}};
+       // boolean[][] vis=new boolean[m][n];
+       boolean fresh=false;
+        boolean rotten=false;
+        Queue<int[]> q=new ArrayDeque<>();
+
         for(int i=0;i<m;i++){
             for(int j=0;j<n;j++){
                 if(grid[i][j]==2){
                     q.add(new int[]{i,j});
-                    rotten =true;
+                    rotten=true;
                 }
                 if(grid[i][j]==1){
                     fresh=true;
                 }
             }
         }
-        if(!fresh) return 0;
+        if( !fresh ) return 0;
         if(!rotten) return -1;
         int time=0;
         while(!q.isEmpty()){
             int size=q.size();
-            while(size>0){
+
+            for(int i=0;i<size;i++){
                 int[] temp=q.poll();
-                int r=temp[0];
-                int c=temp[1];
-                //down
-                if(r+1 <m && grid[r+1][c]==1){
-                    q.add(new int[]{r+1,c});
-                    grid[r+1][c]=2;
+                int row=temp[0];
+                int col=temp[1]; 
+
+                if(row-1 >=0 && grid[row-1][col] == 1){
+                    q.add(new int[]{row-1,col});
+                    grid[row-1][col]=2;
                 }
-                //up
-                if(r-1>=0 && grid[r-1][c]==1){
-                    q.add(new int[]{r-1,c});
-                    grid[r-1][c]=2;
+                if(row+1 <m && grid[row+1][col] == 1){
+                    q.add(new int[]{row+1,col});
+                    grid[row+1][col]=2;
                 }
-                //left
-                if(c-1 >=0 && grid[r][c-1]==1){
-                    q.add(new int[]{r,c-1});
-                    grid[r][c-1]=2;
+                if(col-1 >=0 && grid[row][col-1] == 1){
+                    q.add(new int[]{row,col-1});
+                    grid[row][col-1]=2;
                 }
-                //right
-                if(c+1 <n && grid[r][c+1]==1){
-                    q.add(new int[]{r,c+1});
-                    grid[r][c+1]=2;
+                if(col+1 <n && grid[row][col+1] == 1){
+                    q.add(new int[]{row,col+1});
+                    grid[row][col+1]=2;
                 }
-                size--;
             }
             time++;
         }
-        for(int i=0;i<m;i++){
+         for(int i=0;i<m;i++){
             for(int j=0;j<n;j++){
                 if(grid[i][j]==1){
                    return -1;
                 }
             }
         }
-        return time-1;
+    return time-1;
     }
 }
