@@ -14,28 +14,26 @@ class Solution {
         Arrays.fill(ans,-1);
         for(int i=0;i<graph.length;i++){
             if(ans[i] == -1){
-                if(!ispartition(i,ans,graph)){
+                if(!ispartition(i,ans,graph,0)){
                     return false;
                 }
             }
         }
         return true;
     }
-    boolean ispartition(int start,int[] ans,int[][] graph){
+    boolean ispartition(int start,int[] ans,int[][] graph,int colour){
 
-        Queue<Integer> q=new ArrayDeque<>();
-        q.add(start);
-        ans[start]=0;
-        while(!q.isEmpty()){
-            int node=q.poll();
-            for(int nbr: graph[node]){
-                if(ans[nbr]==-1){
-                    ans[nbr]=1-ans[node];
-                    q.add(nbr);
-                }
-                else if(ans[nbr] == ans[node] && ans[nbr] !=-1){
-                    return false;
-                }
+
+        //if(ans[start] !=-1) return;
+        ans[start]=colour;
+
+
+        for(int nbr:graph[start]){
+            if(ans[nbr] ==-1){
+                if(!ispartition(nbr,ans,graph,1-colour )) return false;
+            }
+            else if(nbr !=-1 && ans[start] == ans[nbr]){
+                return false;
             }
         }
         return true;
