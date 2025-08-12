@@ -1,8 +1,7 @@
 class Solution {
     public static ArrayList<Integer> topoSort(int v, int[][] edges) {
         // code here
-         ArrayList<Integer> ans=new ArrayList<>();
-         ArrayList<ArrayList<Integer>> list=new ArrayList<>();
+        ArrayList<ArrayList<Integer>> list=new ArrayList<>();
          for(int i=0;i<v;i++){
              list.add(new ArrayList<Integer>());
          }
@@ -12,24 +11,29 @@ class Solution {
              list.get(from).add(to);
          }
          
-         boolean[] vis=new boolean[v];
-         Stack<Integer> stck=new Stack<>();
+         int[] indegree=new int[v];
+         for(int[] edge:edges){
+             int from=edge[0];
+             int to=edge[1];
+             indegree[to]++;
+         }
+         Queue<Integer> q=new ArrayDeque<>();
          for(int i=0;i<v;i++){
-            if(!vis[i])
-                dfs(i,list,vis,stck);
+             if(indegree[i]==0) q.add(i);
          }
          
-         while(!stck.isEmpty()){
-             ans.add(stck.pop());
+         ArrayList<Integer> topo=new ArrayList<>();
+         
+         while(!q.isEmpty()){
+             int node=q.remove();
+             topo.add(node);
+             for(int i:list.get(node)){
+                 indegree[i]--;
+                 if(indegree[i]==0){
+                     q.add(i);
+                 }
+             }
          }
-         return ans;
-    }
-    public static void dfs(int node ,ArrayList<ArrayList<Integer>> list,boolean[] vis,Stack<Integer> stck){
-        vis[node]=true;
-        for(int i:list.get(node)){
-            if(!vis[i])
-                dfs(i,list,vis,stck);
-        }
-        stck.push(node);
+         return topo;
     }
 }
