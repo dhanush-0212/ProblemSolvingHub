@@ -13,8 +13,8 @@ class Solution {
                 l++;
             }
 
-            if((r-l+1) - maxFreq <= k)
-                maxLen=Math.max(maxLen,r-l+1);
+            // if((r-l+1) - maxFreq <= k)
+            maxLen=Math.max(maxLen,r-l+1);
             r++;
         }
         return maxLen;
