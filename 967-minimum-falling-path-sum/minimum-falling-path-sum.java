@@ -8,16 +8,16 @@ class Solution {
             int left=Integer.MAX_VALUE,down=Integer.MAX_VALUE,right=Integer.MAX_VALUE;
             for(int j=0;j<n;j++){
 
-                if(j>0) left=dp[i+1][j-1];
-                down=dp[i+1][j];
-                if(j<n-1)right=dp[i+1][j+1];
+                if(j>0) left=matrix[i+1][j-1];
+                down=matrix[i+1][j];
+                if(j<n-1)right=matrix[i+1][j+1];
 
                 int curr=matrix[i][j];
-                dp[i][j]=curr + Math.min(down,Math.min(left,right));
+                matrix[i][j]=curr + Math.min(down,Math.min(left,right));
             }
         }
         for(int j=0;j<n;j++){
-            min=Math.min(min,dp[0][j]);
+            min=Math.min(min,matrix[0][j]);
         }
         return min;
     }
